@@ -4,8 +4,10 @@ ExtrMeth<-read.csv("2015_GMFvsSA.csv")
 head(ExtrMeth)
 summary(ExtrMeth)
 
+library(plyr)
 #What is the average of each filter type? 
-aggregate(ExtrMeth[, 4:5], list(ExtrMeth$Filter), mean) 
+ddply(ExtrMeth,.(Filter,Pond),summarize,Average=mean(Nanodrop), StdDev=sd(Nanodrop))
+#aggregate(ExtrMeth[, 4:5], list(ExtrMeth$Filter), mean) 
 #GMF Nanodrop average is 7.027; 
 #SA Nanodrop average is 5.723
 
@@ -45,3 +47,6 @@ t.test(ND~Filter, ExtrMeth) #No negss, p-val = 0.082, averages = 7.045, 5.731
 t.test(LogDrops~Filter, ExtrMeth) #negative numbers logged, p-val = 0.34, averages = 1.520 and 1.606
 
 t.test(LogND2~Filter, ExtrMeth) #p-val = 0.2813, averages = 1.501, 1.597
+
+
+## Paired t-tests; with two dates missing at random ##

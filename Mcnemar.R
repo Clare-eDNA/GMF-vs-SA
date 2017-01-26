@@ -77,7 +77,7 @@ table1
 2+4+3+4
 x5<- matrix(c(59, 34, 10, 13), byrow = TRUE, 2, 2)
 mcnemar.test(x5,y = NULL, correct = TRUE)
-
+chisq.test(x5, simulate.p.value = T, B=1000)
 #Without Pond A
 #SA0 GMF0 = 44 
 12+18+14
@@ -90,3 +90,8 @@ mcnemar.test(x5,y = NULL, correct = TRUE)
 x6<-matrix(c(44, 23, 7, 11), byrow = TRUE, 2, 2)
 mcnemar.test(x6)
 chisq.test(x6)
+
+===
+install.packages("exact2x2", dep=T)
+library(exact2x2)
+mcnemar.exact(x5) # 95 percent confidence interval: 1.642406 7.715849
