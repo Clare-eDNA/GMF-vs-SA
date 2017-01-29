@@ -3,10 +3,12 @@ setwd("~/Iowa State University/Stats/GMF-vs-SA")
 ExtrMeth<-read.csv("2015_GMFvsSA.csv")
 head(ExtrMeth)
 summary(ExtrMeth)
+Nanodrop = ExtrMeth$Nanodrop
+sd(Nanodrop)
 
 library(plyr)
 #What is the average of each filter type? 
-ddply(ExtrMeth,.(Filter,Pond),summarize,Average=mean(Nanodrop), StdDev=sd(Nanodrop))
+ddply(ExtrMeth,.(Filter),summarize,Average=mean(Nanodrop), StdDev=sd(Nanodrop), Median = median(Nanodrop))
 #aggregate(ExtrMeth[, 4:5], list(ExtrMeth$Filter), mean) 
 #GMF Nanodrop average is 7.027; 
 #SA Nanodrop average is 5.723
