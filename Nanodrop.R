@@ -9,6 +9,7 @@ sd(Nanodrop)
 library(plyr)
 #What is the average of each filter type? 
 ddply(ExtrMeth,.(Filter),summarize,Average=mean(Nanodrop), StdDev=sd(Nanodrop), Median = median(Nanodrop))
+ddply(ExtrMeth,.(Filter),summarize,Average=mean(ND), StdDev=sd(ND), Median = median(ND))
 #aggregate(ExtrMeth[, 4:5], list(ExtrMeth$Filter), mean) 
 #GMF Nanodrop average is 7.027; 
 #SA Nanodrop average is 5.723
