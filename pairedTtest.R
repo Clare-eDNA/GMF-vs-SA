@@ -7,6 +7,7 @@ head(PTT)
 #Remove all NA columns
 
 t.test(PTT$GMF, PTT$SA, paired=TRUE)
+t.test(smurf$GMF, smurf$SA, paired=TRUE)
 #t = 1.7984, df = 141, p-value = 0.07425, paired t-test = not significant
 
 library(reshape2)
@@ -23,6 +24,7 @@ acf(res[PTT$Pond=="B"])
 acf(res[PTT$Pond=="C"])
 acf(res[PTT$Pond=="D"])
 par(mfrow=c(1,1))
+
 
 library(ggplot2)
 
@@ -43,3 +45,26 @@ library(plyr)
 ddply(smurf, .(variable), summarize,  Mean=mean(value), StDev=sd(value))
 #Summary stats in log
 ddply(smurf, .(variable), summarize,  Mean=mean(log(value)), StDev=sd(log(value)), Median = median(log(value)))
+
+#####################################################################################
+
+m1 <- glm(value~variable*JDATE, data=smurf)
+summary(m1)
+plot(value~variable*JDATE, data=smurf)
+#significant effect of date, but no singifcant effect of an interaction
+m2<- glm(value~variable*Pond, data=smurf)
+summary(m2)
+#Pond B is different than Pond A, and a potentially signficant interaction between pond and SA vs GMF extraction
+m3<- glm(value~Pond*JDATE, data=smurf)
+summary(m3)
+####### But, if we look at the differences############################################
+
+m4 <- glm(Diff~JDATE, data=PTT)
+summary(m4)
+plot(value~variable*JDATE, data=PTT)
+#significant effect of date, but no singifcant effect of an interaction
+m5<- glm(Diff~variable*Pond, data=PTT)
+summary(m5)
+#Pond B is different than Pond A, and a potentially signficant interaction between pond and SA vs GMF extraction
+m6<- glm(Diff~Pond*JDATE, data=PTT)
+summary(m6)
