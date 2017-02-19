@@ -24,6 +24,8 @@ acf(res[PTT$Pond=="C"])
 acf(res[PTT$Pond=="D"])
 par(mfrow=c(1,1))
 
+library(ggplot2)
+
 qplot(JDATE, value, geom="point", data=PTT.m, facets=variable~Pond)
 qplot(value, geom="histogram", data=PTT.m, facets=variable~Pond)
 #If we (1) replace the negative and low values with the lowest detected value for each method respectively and then log the values, we can compare methods and do a paired t-test that way... 
@@ -35,3 +37,9 @@ smurf <- melt(smurf, id.vars=c("JDATE", "Pond"), measure.vars = c("GMF", "SA"))
 qplot(log(value), geom="histogram", data=smurf, facets=variable~Pond, binwidth=1/3)
 ##Here's the t-test
 t.test(value~variable, paired = TRUE, data=smurf)
+
+## Summary stats in real
+library(plyr)
+ddply(smurf, .(variable), summarize,  Mean=mean(value), StDev=sd(value))
+#Summary stats in log
+ddply(smurf, .(variable), summarize,  Mean=mean(log(value)), StDev=sd(log(value)), Median = median(log(value)))
